@@ -10,7 +10,7 @@ IFS=$'\n'
 for item in $result; do
     title=$(echo "$item" | cut -d'|' -f1)
     is_read=$(echo "$item" | cut -d'|' -f2)
-    code=$(echo "$title" | grep -oE '\d{4,}')
+    code=$(echo "$title" | grep -oE '\d{4,}' | tr '\n' ',' | sed 's/,$//')
 
     if [ "$is_read" = "1" ]; then
         title="✅ $title"
