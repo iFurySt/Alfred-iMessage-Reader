@@ -8,20 +8,20 @@ json="{\"items\":["
 index=0
 IFS=$'\n'
 for item in $result; do
-    title=$(echo "$item" | cut -d'|' -f1)
+    msg=$(echo "$item" | cut -d'|' -f1)
     is_read=$(echo "$item" | cut -d'|' -f2)
-    code=$(echo "$title" | grep -oE '\d{4,}' | tr '\n' ',' | sed 's/,$//')
+    code=$(echo "$msg" | grep -oE '\d{4,}' | tr '\n' ',' | sed 's/,$//')
 
     if [ "$is_read" = "1" ]; then
-        title="✅ $title"
+        msg="✅ $msg"
     else
-        title="📩 $title"
+        msg="📩 $msg"
     fi
 
     if [ $index -ne 0 ]; then
         json="$json,"
     fi
-    json="$json{\"title\":\"$title\",\"arg\":\"$code\"}"
+    json="$json{\"title\":\"$code\",\"subtitle\":\"$msg\",\"arg\":\"$code\"}"
     index=$((index + 1))
 done
 json="$json]}"
